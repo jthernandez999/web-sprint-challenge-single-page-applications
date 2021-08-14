@@ -6,10 +6,10 @@ const NavBar = () => {
 
     return (
         <nav>
-            <h1>Lambda Eats</h1>
+            <h1 className='store-header'>Lambda Eats</h1>
             <div className='nav-links'>
                 <Link to='/'>Home</Link>
-                <Link to='/order-pizza'>Order</Link>
+                <Link to='/pizza'>Order</Link>
             </div>
         </nav>
     )
