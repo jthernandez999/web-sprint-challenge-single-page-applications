@@ -6,7 +6,8 @@ import ConfirmationPage from "./ConfirmationPage";
 import NavBar from './NavBar'
 import Home from "./Home";
 import axios from "axios";
-import * as Yup from 'yup'
+import * as yup from 'yup'
+import schema from './validation/formSchema'
 
 // const Button = styled.button`
 // display: flex;
@@ -27,11 +28,11 @@ const initialFormValues = {
   // Dropdown
   size: '',
   // Checkboxes
-  pepperoni: false, 
-  sausage: false, 
-  greenPeppers: false, 
-  onions: false, 
-  special_text: ''
+  topping1: false, 
+  topping2: false, 
+  topping3: false, 
+  topping4: false, 
+  special: ''
 }
 const initialFormErrors = {
   // Text Inputs
@@ -44,33 +45,80 @@ const initialFormErrors = {
   // Dropdown
   size: '',
   // Checkboxes
-  pepperoni: '', 
-  sausage: '', 
-  greenPeppers: '', 
-  onions: '',
-  special_text: ''
+  topping1: '', 
+  topping2: '', 
+  topping3: '', 
+  topping4: '',
+  special: ''
 }
 const initialOrder = []
 const initialDisabled =  true
 
 const App = () => {
-  const [order, setOrder] = useState(initialOrder)
+  const [orders, setOrders] = useState(initialOrder)
   const [formValues, setFormValues] = useState(initialFormValues)
   const [formErrors, setFormErrors] = useState(initialFormErrors)
   const [disabled, setDisabled] = useState(initialDisabled)
 
-  const getOrders = () => {
+
+
+  const postNewOrder = newOrder => {
     axios
-    .get('https://reqres.in/api/orders')
-    .then(res => {
-      console.log(res)
+    .post('https://reqres.in/api/orders', newOrder)
+    .then(response => {
+      setOrders([...orders, newOrder])
+      console.log('posting order', response)
+    })
+    .catch(err => console.log(err))
+    .finally(() => {
+      setFormValues(initialFormValues)
     })
   }
 
   const inputChange = (name, value) => {
-setFormValues({ ...formValues, [name]: value})
+  yup
+  .reach(schema, name)
+  .validate(value)
+  .then(() => {
+    setFormErrors({
+      ...formErrors, 
+      [name]: ''
+    })
+  })
+  .catch(err => {
+    setFormErrors({
+      ...formErrors, 
+      [name]: err.message
+    })
+  })
+  setFormValues({ 
+      ...formValues,
+      [name]: value
+    })
   }
   
+  const formSubmit = () => {
+    const newOrder = {
+      name: formValues.name.trim(), 
+      address: formValues.address.trim(), 
+      email: formValues.email.trim(), 
+      phoneNumber: formValues.phoneNumber.trim(), 
+      crust: formValues.crust.trim(),
+      size: formValues.size.trim(), 
+      toppings: ['topping1', 'topping2', 'topping3', 'topping4'].filter(topping => formValues[topping]),
+      special: formValues.trim()
+    }
+    postNewOrder(newOrder)
+  }
+
+
+  useEffect(() => {
+    schema
+    .isValid(formValues)
+    .then(isSchemaValid => {
+      setDisabled(!isSchemaValid)
+    })
+  }, [formValues])
 
   return (
     <>
@@ -85,7 +133,10 @@ setFormValues({ ...formValues, [name]: value})
         <OrderForm 
         values={formValues}
         change={inputChange}
-        disabled={disabled} />
+        disabled={disabled}
+        errors={formErrors}
+        submit={formSubmit}
+        />
       </Route>
 
       <Route

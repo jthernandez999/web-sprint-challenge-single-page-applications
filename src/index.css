@@ -157,3 +157,6 @@ nav {
 .md-button:disabled::after {
   opacity: 0;
 }
+.errors {
+  color: crimson;
+}

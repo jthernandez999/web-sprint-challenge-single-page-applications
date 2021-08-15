@@ -1,17 +1,36 @@
 import React from 'react'
 
 const OrderForm = (props) => {
-    const { values, change, disabled } = props
+    const { 
+        values,
+        change,
+        disabled, 
+        errors, 
+        submit
+    } = props
     console.log(props)
 
+    const onSubmit = evt => {
+        evt.prevendDefault()
+        submit()
+    }
     const onChange = evt => {
         const { checked, name, type, value } = evt.target
         type === 'checkbox' ? change(name, checked) : change(name, value)
     }
+
     return (
         <div>
             <h1>Pizza Order Form</h1>
-            <form id='pizza-form' className='form container'>
+            <form id='pizza-form' className='form container' onSubmit={onSubmit}>
+                <div className='errors'>
+                    <div>{errors.name}</div>
+                    <div>{errors.address}</div>
+                    <div>{errors.email}</div>
+                    <div>{errors.phoneNumber}</div>
+                    <div>{errors.crust}</div>
+                    <div>{errors.size}</div>
+                </div>
                 <div className='form-group deliveryInfo'>
                     <h2>Delivery Information</h2>
                     <label>Name
@@ -61,28 +80,28 @@ const OrderForm = (props) => {
                     <h3>Topping(s)</h3>
 
                     <label>Pepperoni
-                        <input type='checkbox' name='pepperoni' checked={values.pepperoni} onChange={onChange} />
+                        <input type='checkbox' name='topping1' checked={values.topping1} onChange={onChange} />
                     </label>
 
                     <label>Sausage
-                        <input type='checkbox' name='sausage'checked={values.sausage} onChange={onChange} />
+                        <input type='checkbox' name='topping2'checked={values.topping2} onChange={onChange} />
                     </label>
                     
                     <label>Green Peppers
-                        <input type='checkbox' name='greenPeppers' checked={values.greenPeppers} onChange={onChange} />
+                        <input type='checkbox' name='topping3' checked={values.topping3} onChange={onChange} />
                     </label>
                     
                     <label>Onions
-                        <input type='checkbox' name='onions' checked={values.onions} onChange={onChange} />
+                        <input type='checkbox' name='topping4' checked={values.topping4} onChange={onChange} />
                     </label>
                 </div>
 
-                    <h3>Special Instruction</h3>
+                    <h3>Special Instructions</h3>
                     <label>
-                        <input id="special-text" type='text' value={values.special_text} name='special_text' onChange={onChange} />
+                        <input id="special-text" type='text' value={values.special} name='special' onChange={onChange} />
                     </label>
-                <div className='med-btn'>
-                    <button disabled={disabled}>Submit</button>
+                <div className='button'>
+                    <button className='order-button' disabled={disabled}>Add to Order</button>
                 </div>
                     
             </form>
