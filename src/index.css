@@ -55,6 +55,14 @@ nav {
     width: 100%;
     max-height: 400px;
     object-fit: cover;
+    position: relative;
+  }
+  .first-text {
+  color:white;
+  position: absolute;
+  top: 270px;
+  left: 13px;
+  text-shadow: -.5px -.5px 0 rgb(97, 96, 96), .5px -.5px 0 rgb(97, 96, 96), -.5px .5px 0 rgb(97, 96, 96), .5px .5px 0 rgb(97, 96, 96);
   }
 
   .md-button {
@@ -304,5 +312,5 @@ opacity: 0;
   border: 1px solid grey;
   margin: auto;
   text-align: center;
-  width: 25%;
+  width: 75%;
 }
