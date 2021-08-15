@@ -1,11 +1,15 @@
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
 
-// const history = useHistory()
-// console.log(history)
+
 
 export default function Home () {
+    const history = useHistory()
+console.log('history', history)
 
+    const routeToOrder = () => {
+        history.push('/pizza')
+    }
     return (
 <div className='home-wrapper'>
     <h1>Gourmet Pizza</h1>

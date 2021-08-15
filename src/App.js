@@ -45,22 +45,23 @@ const initialFormErrors = {
   // Dropdown
   size: '',
   // Checkboxes
-  topping1: '', 
-  topping2: '', 
-  topping3: '', 
-  topping4: '',
+  // topping1: '', 
+  // topping2: '', 
+  // topping3: '', 
+  // topping4: '',
   special: ''
 }
-const initialOrder = []
+const initialOrders = []
 const initialDisabled =  true
 
-const App = () => {
-  const [orders, setOrders] = useState(initialOrder)
+export default function App() {
+
+  const [orders, setOrders] = useState(initialOrders)
   const [formValues, setFormValues] = useState(initialFormValues)
   const [formErrors, setFormErrors] = useState(initialFormErrors)
   const [disabled, setDisabled] = useState(initialDisabled)
 
-
+const API = 'https://reqres.in/api/orders'
 
   const postNewOrder = newOrder => {
     axios
@@ -106,17 +107,30 @@ const App = () => {
       crust: formValues.crust.trim(),
       size: formValues.size.trim(), 
       toppings: ['topping1', 'topping2', 'topping3', 'topping4'].filter(topping => formValues[topping]),
-      special: formValues.trim()
+      special: formValues.special.trim()
     }
+    const nameIsEmpty = !newOrder.name
+    const addressIsEmpty = !newOrder.address
+    const emailIsEmpty = !newOrder.email
+    const phoneNumberIsEmpty = !newOrder.phoneNumber
+    const crustIsEmpty = !newOrder.crust
+    const sizeIsEmpty = !newOrder.size
+    const specialIsEmpty = !newOrder.special
+    if (nameIsEmpty || addressIsEmpty || emailIsEmpty || phoneNumberIsEmpty || crustIsEmpty || sizeIsEmpty || specialIsEmpty ) 
+    
+    return
+    
+    
     postNewOrder(newOrder)
+    console.log(newOrder)
+    
   }
-
 
   useEffect(() => {
     schema
-    .isValid(formValues)
-    .then(isSchemaValid => {
-      setDisabled(!isSchemaValid)
+      .isValid(formValues)
+      .then(isSchemaValid => {
+    setDisabled(!isSchemaValid)
     })
   }, [formValues])
 
@@ -151,4 +165,3 @@ const App = () => {
     </>
   );
 };
-export default App;

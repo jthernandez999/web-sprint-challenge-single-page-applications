@@ -1,4 +1,6 @@
 import React from 'react'
+import { useRouteMatch  } from 'react-router'
+
 
 const OrderForm = (props) => {
     const { 
@@ -8,21 +10,25 @@ const OrderForm = (props) => {
         errors, 
         submit
     } = props
-    console.log(props)
+    // console.log(props)
 
     const onSubmit = evt => {
-        evt.prevendDefault()
+        evt.preventDefault()
         submit()
     }
     const onChange = evt => {
         const { checked, name, type, value } = evt.target
-        type === 'checkbox' ? change(name, checked) : change(name, value)
+        if(type === 'checkbox') {
+            change(name, checked)
+        } else {
+            change(name, value)
+        }
     }
-
+    // type === 'checkbox' ? change(name, checked) : change(name, value)
     return (
-        <div>
-            <h1>Pizza Order Form</h1>
-            <form id='pizza-form' className='form container' onSubmit={onSubmit}>
+        
+            <form id='pizza-form' onSubmit={onSubmit}>
+                <h1>Pizza Order Form</h1>
                 <div className='errors'>
                     <div>{errors.name}</div>
                     <div>{errors.address}</div>
@@ -57,8 +63,9 @@ const OrderForm = (props) => {
                     <label>Thin
                         <input type='radio' name='crust' value='thin' onChange={onChange} checked={values.crust === 'thin'} />
                     </label>
+
                     <label>Deep Dish
-                        <input type='radio' name='crust' value='deepDish' onChange={onChange} checked={values.crust === 'deepDish'} />
+                        <input type='radio' name='crust' value='deep dish' onChange={onChange} checked={values.crust === 'deep dish'} />
                     </label>
                     
                     <label><h3>Size</h3>
@@ -74,7 +81,7 @@ const OrderForm = (props) => {
                             <option value='extraLarge'>Extra Large</option>
                         </select>
                     </label>
-                </div>
+                
 
                 <div className='form-group checkboxes'>
                     <h3>Topping(s)</h3>
@@ -100,12 +107,12 @@ const OrderForm = (props) => {
                     <label>
                         <input id="special-text" type='text' value={values.special} name='special' onChange={onChange} />
                     </label>
-                <div className='button'>
-                    <button className='order-button' disabled={disabled}>Add to Order</button>
                 </div>
+                    <button id='order-button' className='order-button' disabled={disabled}>Add to Order</button>
+                
                     
             </form>
-        </div>
+        
     )
 }
 
