@@ -1,6 +1,8 @@
 import React from 'react'
-import { useRouteMatch  } from 'react-router'
+import { useRouteMatch, useHistory } from 'react-router'
 
+// const history = useHistory()
+// history.push('/order-confirmation')
 
 const OrderForm = (props) => {
     const { 
@@ -15,6 +17,8 @@ const OrderForm = (props) => {
     const onSubmit = evt => {
         evt.preventDefault()
         submit()
+        
+        
     }
     const onChange = evt => {
         const { checked, name, type, value } = evt.target

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 // import styled from 'styled-components'
-import { Route, Link, Switch } from "react-router-dom";
+import { Route, Link, Switch, useHistory } from "react-router-dom";
 import OrderForm from "./OrderForm";
 import ConfirmationPage from "./ConfirmationPage";
 import NavBar from './NavBar'
@@ -60,6 +60,7 @@ export default function App() {
   const [formValues, setFormValues] = useState(initialFormValues)
   const [formErrors, setFormErrors] = useState(initialFormErrors)
   const [disabled, setDisabled] = useState(initialDisabled)
+  const history = useHistory()
 
 const API = 'https://reqres.in/api/orders'
 
@@ -68,7 +69,8 @@ const API = 'https://reqres.in/api/orders'
     .post('https://reqres.in/api/orders', newOrder)
     .then(response => {
       setOrders([...orders, newOrder])
-      console.log('posting order', response)
+      const orderDetails = response.data
+      console.log('posting order', orderDetails)
     })
     .catch(err => console.log(err))
     .finally(() => {
@@ -122,6 +124,7 @@ const API = 'https://reqres.in/api/orders'
     
     
     postNewOrder(newOrder)
+    history.push('/order-confirmation')
     console.log(newOrder)
     
   }
@@ -152,6 +155,16 @@ const API = 'https://reqres.in/api/orders'
         submit={formSubmit}
         />
       </Route>
+
+      <Route path='/order-confirmation'>
+        {
+          orders.map(order => {
+            return (
+              <ConfirmationPage details={order} />
+            )
+          })
+        }
+        </Route>
 
       <Route
       path='/'

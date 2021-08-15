@@ -296,3 +296,13 @@ opacity: 0;
   border-radius: .5%;
   
 }
+
+.order-confirmation {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  border: 1px solid grey;
+  margin: auto;
+  text-align: center;
+  width: 25%;
+}
