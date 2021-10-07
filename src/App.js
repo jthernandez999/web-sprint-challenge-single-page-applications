@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 // import styled from 'styled-components'
-import { Route, Link, Switch, useHistory } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
 import OrderForm from "./OrderForm";
 import ConfirmationPage from "./ConfirmationPage";
 import NavBar from './NavBar'
@@ -19,6 +19,7 @@ import schema from './validation/formSchema'
 
 const initialFormValues = {
   // Text Inputs
+  id: '',
   name: '',
   address: '',
   email: '', 
@@ -62,7 +63,7 @@ export default function App() {
   const [disabled, setDisabled] = useState(initialDisabled)
   const history = useHistory()
 
-const API = 'https://reqres.in/api/orders'
+
 
   const postNewOrder = newOrder => {
     axios
@@ -102,6 +103,7 @@ const API = 'https://reqres.in/api/orders'
   
   const formSubmit = () => {
     const newOrder = {
+      id: Date.now(),
       name: formValues.name.trim(), 
       address: formValues.address.trim(), 
       email: formValues.email.trim(), 
@@ -111,17 +113,6 @@ const API = 'https://reqres.in/api/orders'
       toppings: ['topping1', 'topping2', 'topping3', 'topping4'].filter(topping => formValues[topping]),
       special: formValues.special.trim()
     }
-    const nameIsEmpty = !newOrder.name
-    const addressIsEmpty = !newOrder.address
-    const emailIsEmpty = !newOrder.email
-    const phoneNumberIsEmpty = !newOrder.phoneNumber
-    const crustIsEmpty = !newOrder.crust
-    const sizeIsEmpty = !newOrder.size
-    const specialIsEmpty = !newOrder.special
-    if (nameIsEmpty || addressIsEmpty || emailIsEmpty || phoneNumberIsEmpty || crustIsEmpty || sizeIsEmpty || specialIsEmpty ) 
-    
-    return
-    
     
     postNewOrder(newOrder)
     history.push('/order-confirmation')

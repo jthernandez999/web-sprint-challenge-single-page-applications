@@ -4,8 +4,9 @@ import { Link, useHistory } from "react-router-dom";
 
 
 export default function Home () {
-    const history = useHistory()
-console.log('history', history)
+
+const history = useHistory()
+    console.log('history', history)
 
     const routeToOrder = () => {
         history.push('/pizza')
@@ -24,7 +25,7 @@ console.log('history', history)
 
 
     <Link to='/pizza'>
-    <button className='md-button' id="order-pizza" >Pizza?</button>
+        <button className='md-button' id="order-pizza" >Pizza?</button>
     </Link>
 </div>
     )

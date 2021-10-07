@@ -1,8 +1,6 @@
 import React from 'react'
-import { useRouteMatch, useHistory } from 'react-router'
 
-// const history = useHistory()
-// history.push('/order-confirmation')
+
 
 const OrderForm = (props) => {
     const { 
@@ -113,8 +111,6 @@ const OrderForm = (props) => {
                     </label>
                 </div>
                     <button id='order-button' className='order-button' disabled={disabled}>Add to Order</button>
-                
-                    
             </form>
         
     )
